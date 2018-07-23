@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         // long-running operations, i.e. making a network request. If is NOT okay to update
         // the UI from a background thread, so we just return an Event object as a result.
         protected Event doInBackground(String... urls) {
+            // If there are no URLs or the first URL is null, then don't perform the request
+            if (urls.length < 1 || urls[0] == null) {
+                return null;
+            }
 
             // Perform the HTTP request for earthquake data and process the response.
             Event result = Utils.fetchEarthquakeData(urls[0]);
@@ -75,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
         // onPostExecute method is invoked/called on the main
         protected void onPostExecute(Event result) {
+            // If there is no result, then do nothing.
+            if (result == null) {
+                return;
+            }
             // Update the information displayed to the user.
             updateUi(result);
         }
